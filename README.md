@@ -102,8 +102,9 @@ Both write a report under `app/build/reports/benchmark/`.
 
 GPLv3 — see [LICENSE](LICENSE).
 
-OPTIQON Voice is a rebrand of a fork of [pluja/sasayaki](https://github.com/pluja/sasayaki),
-released by its original author under GPLv3, and remains GPLv3 open source. See
+OPTIQON Voice is a modified and rebranded derivative of [pluja/sasayaki](https://github.com/pluja/sasayaki),
+released by its original author under GPLv3. The OPTIQON Voice modifications began in September 2026.
+It remains licensed under GPLv3. See
 [docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md) for the identity principles that
 govern this rename, including what may still reference the upstream name.
 
