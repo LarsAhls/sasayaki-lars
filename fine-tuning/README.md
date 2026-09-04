@@ -1,6 +1,6 @@
 # Fine-tuning
 
-This directory contains everything you need to fine-tune a small LLM for Sasayaki's post-processing step. The pipeline generates synthetic training data, trains a model with LoRA, and exports to GGUF for local inference.
+This directory contains everything you need to fine-tune a small LLM for OPTIQON Voice's post-processing step. The pipeline generates synthetic training data, trains a model with LoRA, and exports to GGUF for local inference.
 
 It works with any language. You just set your languages in `.env` and the LLM generates realistic speech artifacts, fillers, and ASR confusions for those languages automatically. No linguistic expertise needed.
 
@@ -94,7 +94,7 @@ Everything is configured via `.env`. See `.env.example` for all options.
 
 ## Deploying the model
 
-After training, you'll find GGUF files in `output/gguf-q4_k_m/` (and `gguf-q8_0/`). Load them into your inference server and point the Sasayaki app's LLM settings at it.
+After training, you'll find GGUF files in `output/gguf-q4_k_m/` (and `gguf-q8_0/`). Load them into your inference server and point the OPTIQON Voice app's LLM settings at it.
 
 ## Tips
 

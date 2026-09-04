@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sasayaki"
+rootProject.name = "OPTIQON Voice"
 include(":app")

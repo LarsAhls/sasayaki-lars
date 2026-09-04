@@ -21,8 +21,8 @@
 # Gson
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.sasayaki.data.api.model.** { *; }
--keep class com.sasayaki.data.db.entity.** { *; }
+-keep class se.optiqon.voice.data.api.model.** { *; }
+-keep class se.optiqon.voice.data.db.entity.** { *; }
 
 # Room
 -keep class * extends androidx.room.RoomDatabase
