@@ -57,6 +57,8 @@ import com.sasayaki.domain.model.Profile
 import com.sasayaki.domain.model.RewriteMode
 import com.sasayaki.domain.model.SummarizeMode
 import com.sasayaki.domain.model.TextReplacementRule
+import com.sasayaki.domain.model.TranscriptionLanguageOption
+import com.sasayaki.domain.model.TranscriptionLanguages
 import com.sasayaki.ui.common.SasayakiScaffold
 import com.sasayaki.ui.common.SasayakiTopBar
 import com.sasayaki.ui.common.StatusPill
@@ -346,6 +348,11 @@ private fun ProfileEditScreen(
                 SettingsGroup {
                     FieldRow("Transcription provider", "Global provider")
                     EditableInlineRow("Transcription model", asrModel, onValueChange = { asrModel = it })
+                    LanguageQuickPicker(
+                        selected = language,
+                        options = TranscriptionLanguages.quickOptions,
+                        onSelect = { language = it }
+                    )
                     EditableInlineRow("Language", language, placeholder = "Auto", onValueChange = {
                         language = it.lowercase().filter(Char::isLetter).take(3)
                     })
@@ -586,6 +593,36 @@ private fun ToggleTextRow(title: String, selected: Boolean, onToggle: () -> Unit
                 overflow = TextOverflow.Ellipsis
             )
             Switch(checked = selected, onCheckedChange = { onToggle() })
+        }
+    }
+}
+
+@Composable
+private fun LanguageQuickPicker(
+    selected: String,
+    options: List<TranscriptionLanguageOption>,
+    onSelect: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        options.forEach { option ->
+            val fieldValue = option.code.orEmpty()
+            val isSelected = fieldValue == selected
+            Surface(
+                onClick = { onSelect(fieldValue) },
+                shape = MaterialTheme.shapes.small,
+                color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                border = BorderStroke(1.dp, if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
+            ) {
+                Text(
+                    option.label,
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }

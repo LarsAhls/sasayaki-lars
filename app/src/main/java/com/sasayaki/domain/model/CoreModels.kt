@@ -20,6 +20,23 @@ data class Profile(
     val selectedPromptIds: Set<Long> = emptySet()
 )
 
+/**
+ * A one-tap language choice for [Profile.language]. [code] is the ISO-639-1 code sent verbatim
+ * as the ASR `language` parameter; `null` means Auto (no explicit language sent). The free-text
+ * field in the profile editor still accepts any other ISO code directly.
+ */
+data class TranscriptionLanguageOption(
+    val code: String?,
+    val label: String
+)
+
+object TranscriptionLanguages {
+    val quickOptions: List<TranscriptionLanguageOption> = listOf(
+        TranscriptionLanguageOption(code = null, label = "Auto"),
+        TranscriptionLanguageOption(code = "sv", label = "Svenska")
+    )
+}
+
 enum class OutputStyle {
     STANDARD,
     RELAXED,
