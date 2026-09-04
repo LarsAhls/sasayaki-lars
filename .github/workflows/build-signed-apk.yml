@@ -6,9 +6,13 @@ name: Build Signed APK (manual)
 #
 # This workflow is plumbing prepared ahead of a future "Gate" mission: it does not itself
 # hold or generate any secret. It requires RELEASE_STORE_BASE64, RELEASE_STORE_PASSWORD,
-# RELEASE_KEY_ALIAS and RELEASE_KEY_PASSWORD to already exist as repository secrets. If any
-# are missing, the job fails clearly at the verification step below rather than silently
-# falling back to an unsigned (or debug-signed) build mislabeled as a signed release.
+# RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD and RELEASE_CERT_SHA256 to already exist as
+# repository secrets. If any are missing, the job fails clearly at the verification step
+# below rather than silently falling back to an unsigned (or debug-signed) build mislabeled
+# as a signed release. Signer identity is verified cryptographically by comparing the built
+# APK's certificate SHA-256 fingerprint against RELEASE_CERT_SHA256 — the same contract and
+# the same verification script (.github/scripts/verify-apk-signer.sh) used by the public
+# release workflow.
 
 on:
   workflow_dispatch:
@@ -33,12 +37,14 @@ jobs:
           HAS_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
           HAS_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           HAS_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          HAS_CERT_SHA256: ${{ secrets.RELEASE_CERT_SHA256 }}
         run: |
           missing=""
           [ -z "$HAS_STORE" ] && missing="$missing RELEASE_STORE_BASE64"
           [ -z "$HAS_STORE_PASSWORD" ] && missing="$missing RELEASE_STORE_PASSWORD"
           [ -z "$HAS_KEY_ALIAS" ] && missing="$missing RELEASE_KEY_ALIAS"
           [ -z "$HAS_KEY_PASSWORD" ] && missing="$missing RELEASE_KEY_PASSWORD"
+          [ -z "$HAS_CERT_SHA256" ] && missing="$missing RELEASE_CERT_SHA256"
           if [ -n "$missing" ]; then
             echo "::error::Release signing secrets not configured yet:$missing"
             echo "This is expected until a future Gate mission generates and stores a real"
@@ -69,15 +75,14 @@ jobs:
           export RELEASE_STORE_FILE="$RUNNER_TEMP/release.keystore"
           ./gradlew assembleRelease -PversionTag=${{ inputs.versionTag }}
 
-      - name: Verify the APK is signed with the release key (not the debug key)
+      - name: Verify the APK is signed with the expected release certificate
+        env:
+          RELEASE_CERT_SHA256: ${{ secrets.RELEASE_CERT_SHA256 }}
         run: |
-          set -e
-          APK=app/build/outputs/apk/release/app-release.apk
-          "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs "$APK" | tee signer-info.txt
-          if grep -qi "androiddebugkey" signer-info.txt; then
-            echo "::error::APK appears to be signed with the debug key, not the release key."
-            exit 1
-          fi
+          chmod +x .github/scripts/verify-apk-signer.sh
+          .github/scripts/verify-apk-signer.sh \
+            app/build/outputs/apk/release/app-release.apk \
+            "$RELEASE_CERT_SHA256"
 
       - name: Upload signed APK artifact
         uses: actions/upload-artifact@v4

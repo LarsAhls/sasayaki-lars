@@ -43,7 +43,23 @@ attribution norms and by an explicit decision from the app owner (Lars), not acc
 - This rebrand mission only prepares the Gradle/CI plumbing to *read* signing config from
   environment variables / Gradle properties with safe absence-handling (falls back to the debug
   signing config when release secrets are absent, never silently mislabels a build as
-  signed-release when it isn't).
+  signed-release when it isn't). That local/CI debug fallback is acceptable for ordinary build
+  verification, but it must never be reachable from a **public** release.
+- Both CI workflows that can produce a release-signed APK
+  (`.github/workflows/build-signed-apk.yml`, manual smoke build, and
+  `.github/workflows/release.yml`, the tag-triggered public release) share the same secret
+  contract — `RELEASE_STORE_BASE64`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`,
+  `RELEASE_KEY_PASSWORD`, `RELEASE_CERT_SHA256` — and fail with a clear `::error::` before any
+  build step if any of them are missing. `release.yml` in particular cannot build or publish
+  anything without all five present, so a tag pushed before the Gate mission configures secrets
+  fails the workflow rather than publishing a debug-signed APK as an OPTIQON Voice release.
+- Signer identity is verified cryptographically, not by string-matching a keystore alias: both
+  workflows call the shared `.github/scripts/verify-apk-signer.sh`, which extracts the built
+  APK's signer certificate SHA-256 fingerprint via `apksigner verify --print-certs` and requires
+  an exact match against `RELEASE_CERT_SHA256`. A mismatch is a hard failure. `apksigner` itself
+  is resolved deterministically (highest installed build-tools version by version-sort), not via
+  an unordered wildcard. No real fingerprint exists yet — `RELEASE_CERT_SHA256` is provisioned
+  only when the Gate mission generates the real release key.
 
 ## Room schema history — preserved, not discarded
 

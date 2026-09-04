@@ -8,11 +8,6 @@ OPTIQON Voice does the same job as [WisprFlow](https://wisprflow.ai), except it 
 
 > IMPORTANT: This app was coded with AI. I am not an android developer, and I wouldn't be able to do this if it wasn't for AI. I try to enforce good practices, but any contributions or suggestions are very welcome. The app works pretty fine, is small, and gives me what I want.
 
-> OPTIQON Voice is a rebrand of a fork of [pluja/sasayaki](https://github.com/pluja/sasayaki),
-> licensed under GPLv3. See [LICENSE](LICENSE) and
-> [docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md) for the full provenance and
-> identity notes.
-
 ## Features
 
 - A floating dot appears when the keyboard opens. Tap it to dictate, and it stops when you go quiet.
@@ -42,9 +37,9 @@ OPTIQON Voice does the same job as [WisprFlow](https://wisprflow.ai), except it 
 ## Install
 
 > This repository is being rebranded ahead of a move to `LarsAhls/optiqon-voice`. Until that move
-> happens, releases and Obtainium updates are cut from this repository
-> (`LarsAhls/sasayaki-Lars`); the links below point at the future `optiqon-voice` repository and
-> will start resolving once that migration ships (a future, separate mission — see
+> happens, releases and Obtainium updates are still cut from the repository you're reading this
+> in; the links below point at the future `optiqon-voice` repository and will start resolving once
+> that migration ships (a future, separate mission — see
 > [docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md)).
 
 Grab the latest APK from the [releases](https://github.com/LarsAhls/optiqon-voice/releases) page and install it. [Obtainium](https://github.com/ImranR98/Obtainium) can keep it updated for you:
@@ -76,7 +71,7 @@ Setting your main languages in the app lowers the word error rate.
 
 Optional. A 2B or 4B model on a consumer GPU adds little delay and cleans the text up well.
 
-I fine-tuned the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)) using the recipe in the [`fine-tuning`](https://github.com/LarsAhls/sasayaki-Lars/tree/main/fine-tuning#fine-tuning) directory. Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
+I fine-tuned the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)) using the recipe in the [`fine-tuning`](fine-tuning/README.md#fine-tuning) directory. Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
 
 To serve it, I use [`llama-swap`](https://github.com/mostlygeek/llama-swap) over a llama.cpp backend. Plain [`llama.cpp`](https://github.com/ggml-org/llama.cpp), [`koboldcpp`](https://github.com/LostRuins/koboldcpp) and [LlamaFiles](https://github.com/mozilla-ai/llamafile) all work too.
 
@@ -105,17 +100,14 @@ Two further suites measure the post-processing prompts against real models. They
 
 Both write a report under `app/build/reports/benchmark/`.
 
-## License
+## License / Provenance
 
 GPLv3 — see [LICENSE](LICENSE).
 
-## Provenance
-
 OPTIQON Voice is a rebrand of a fork of [pluja/sasayaki](https://github.com/pluja/sasayaki),
-released by its original author under GPLv3. This repository (`LarsAhls/sasayaki-Lars`) started
-as that fork; the app is being renamed and re-identified as OPTIQON Voice while remaining GPLv3
-open source. See [docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md) for the identity
-principles that govern this rename, including what may still reference the upstream name.
+released by its original author under GPLv3, and remains GPLv3 open source. See
+[docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md) for the identity principles that
+govern this rename, including what may still reference the upstream name.
 
 ### Historical note: the original name
 
