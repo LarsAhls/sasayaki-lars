@@ -1,12 +1,10 @@
-<p align="center"><a href="https://keepandroidopen.org/"><b>ANDROID WILL BECOME A LOCKED-DOWN PLATFORM</b></a></p>
-
 # OPTIQON Voice
 
 A tiny (2MB) Android dictation app. Point it at any OpenAI-compatible backend and type by speaking.
 
 OPTIQON Voice does the same job as [WisprFlow](https://wisprflow.ai), except it costs nothing and is more private, connecting to your own models.
 
-> IMPORTANT: This app was coded with AI. I am not an android developer, and I wouldn't be able to do this if it wasn't for AI. I try to enforce good practices, but any contributions or suggestions are very welcome. The app works pretty fine, is small, and gives me what I want.
+> IMPORTANT: This app is built with heavy AI assistance. Good practices are enforced where practical, but contributions and suggestions are welcome. It is small, focused, and does what it sets out to do.
 
 ## Features
 
@@ -54,15 +52,15 @@ Nothing here needs hosting: the app is the whole product, and it will talk to an
 
 ### Speech to text
 
-Plenty of options exist, from [whisper.cpp](https://github.com/ggml-org/whisper.cpp) to [faster-whisper](https://github.com/SYSTRAN/faster-whisper). I run [speaches](https://github.com/speaches-ai/speaches).
+Plenty of options exist, from [whisper.cpp](https://github.com/ggml-org/whisper.cpp) to [faster-whisper](https://github.com/SYSTRAN/faster-whisper). [speaches](https://github.com/speaches-ai/speaches) is a compatible server worth considering.
 
-For the model itself, [`deepdml/faster-whisper-large-v3-turbo-ct2`](https://huggingface.co/deepdml/faster-whisper-large-v3-turbo-ct2) beat everything else I tried across several European languages. On a GPU it is quick, and it holds up when you talk fast or even whisper.
+For the model itself, [`deepdml/faster-whisper-large-v3-turbo-ct2`](https://huggingface.co/deepdml/faster-whisper-large-v3-turbo-ct2) has outperformed other options tested across several European languages. On a GPU it is quick, and it holds up when you talk fast or even whisper.
 
 Other options:
 
 - The [whisper](https://huggingface.co/collections/openai/whisper-release) family, from tiny up to medium. For English only, the `en` models are smaller and sharper.
 - [`Parakeet`](https://parakeettdt.com/) gives good results.
-- [`moonshine`](https://github.com/moonshine-ai/moonshine) is small and multilingual, though I know of no OpenAI-compatible API for it.
+- [`moonshine`](https://github.com/moonshine-ai/moonshine) is small and multilingual, though no OpenAI-compatible API for it is known to exist.
 - [`Voxtral Mini`](https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602)
 
 Setting your main languages in the app lowers the word error rate.
@@ -71,9 +69,9 @@ Setting your main languages in the app lowers the word error rate.
 
 Optional. A 2B or 4B model on a consumer GPU adds little delay and cleans the text up well.
 
-I fine-tuned the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)) using the recipe in the [`fine-tuning`](fine-tuning/README.md#fine-tuning) directory. Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
+The [`fine-tuning`](fine-tuning/README.md#fine-tuning) directory contains a recipe for fine-tuning the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)). Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
 
-To serve it, I use [`llama-swap`](https://github.com/mostlygeek/llama-swap) over a llama.cpp backend. Plain [`llama.cpp`](https://github.com/ggml-org/llama.cpp), [`koboldcpp`](https://github.com/LostRuins/koboldcpp) and [LlamaFiles](https://github.com/mozilla-ai/llamafile) all work too.
+To serve it, [`llama-swap`](https://github.com/mostlygeek/llama-swap) over a llama.cpp backend works well. Plain [`llama.cpp`](https://github.com/ggml-org/llama.cpp), [`koboldcpp`](https://github.com/LostRuins/koboldcpp) and [LlamaFiles](https://github.com/mozilla-ai/llamafile) all work too.
 
 The same providers are useful if you don't want to host your own ([ppq.ai](https://ppq.ai/) and [nano-gpt.com](https://nano-gpt.com)). If you want private inference, check out [tinfoil](https://tinfoil.sh).
 
@@ -96,7 +94,7 @@ Run the prompt tests, which need no network and no credentials:
 Two further suites measure the post-processing prompts against real models. They skip themselves unless `OPENAI_ENDPOINT` and `OPENAI_API_KEY` are set, so they never run by accident:
 
 - `PostProcessingBenchmark` sends dictations in English, Spanish, French, Catalan and Italian, then checks whether self-corrections were applied, whether the text stayed in its original language, and how long each model took.
-- `StyleControlDifferentialTest` verifies that moving a style control changes the output, which is how I found two settings that did nothing at all.
+- `StyleControlDifferentialTest` verifies that moving a style control changes the output — it caught two settings that did nothing at all.
 
 Both write a report under `app/build/reports/benchmark/`.
 
