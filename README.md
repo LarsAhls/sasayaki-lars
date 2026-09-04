@@ -1,14 +1,10 @@
-<p align="center"><a href="https://keepandroidopen.org/"><b>ANDROID WILL BECOME A LOCKED-DOWN PLATFORM</b></a></p>
-
-# ささやき　（sasayaki）
-
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{%22id%22:%22com.sasayaki%22,%22url%22:%22https://github.com/pluja/sasayaki%22,%22author%22:%22pluja%22,%22name%22:%22Sasayaki%22,%22additionalSettings%22:%22{\%22about\%22:\%22A%20tiny%20dictation%20app.%20Connect%20any%20OpenAI-compatible%20backend%20and%20type%20by%20speaking.\%22}%22}"><img src="/assets/badge_obtainium.png" alt="Get it on Obtainium" height="60"></a>
+# OPTIQON Voice
 
 A tiny (2MB) Android dictation app. Point it at any OpenAI-compatible backend and type by speaking.
 
-Sasayaki does the same job as [WisprFlow](https://wisprflow.ai), except it costs nothing and is more private, connecting to your own models.
+OPTIQON Voice does the same job as [WisprFlow](https://wisprflow.ai), except it costs nothing and is more private, connecting to your own models.
 
-> IMPORTANT: This app was coded with AI. I am not an android developer, and I wouldn't be able to do this if it wasn't for AI. I try to enforce good practices, but any contributions or suggestions are very welcome. The app works pretty fine, is small, and gives me what I want.
+> IMPORTANT: This app is built with heavy AI assistance. Good practices are enforced where practical, but contributions and suggestions are welcome. It is small, focused, and does what it sets out to do.
 
 ## Features
 
@@ -19,7 +15,7 @@ Sasayaki does the same job as [WisprFlow](https://wisprflow.ai), except it costs
 - **Post-processing**: a small model turns what you said into a clean written message.
   - "Uh... Yeah, let's meet at 8.. No sorry, at 9!" → "Let's meet at 9."
   - Per profile, set the punctuation and casing, how far the model may rewrite you, how much it should condense, and whether emoji are allowed.
-  - Sasayaki passes the app you are dictating into as context, so mail comes out in a different tone from a chat.
+  - OPTIQON Voice passes the app you are dictating into as context, so mail comes out in a different tone from a chat.
 - Replacement rules fix the words your ASR keeps mangling. Plain text or regex, and each profile chooses which ones apply.
 - Write your own post-processing prompts and switch them on per profile, alongside the built-in ones.
 - History keeps past dictations, up to a limit you choose, and can be switched off. Word and time totals keep counting either way.
@@ -38,9 +34,15 @@ Sasayaki does the same job as [WisprFlow](https://wisprflow.ai), except it costs
 
 ## Install
 
-Grab the latest APK from the [releases](https://github.com/pluja/sasayaki/releases) page and install it. [Obtainium](https://github.com/ImranR98/Obtainium) can keep it updated for you:
+> This repository is being rebranded ahead of a move to `LarsAhls/optiqon-voice`. Until that move
+> happens, releases and Obtainium updates are still cut from the repository you're reading this
+> in; the links below point at the future `optiqon-voice` repository and will start resolving once
+> that migration ships (a future, separate mission — see
+> [docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md)).
 
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{%22id%22:%22com.sasayaki%22,%22url%22:%22https://github.com/pluja/sasayaki%22,%22author%22:%22pluja%22,%22name%22:%22Sasayaki%22,%22additionalSettings%22:%22{\%22about\%22:\%22A%20tiny%20dictation%20app.%20Connect%20any%20OpenAI-compatible%20backend%20and%20type%20by%20speaking.\%22}%22}"><img src="/assets/badge_obtainium.png" alt="Get it on Obtainium" height="60"></a>
+Grab the latest APK from the [releases](https://github.com/LarsAhls/optiqon-voice/releases) page and install it. [Obtainium](https://github.com/ImranR98/Obtainium) can keep it updated for you:
+
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/{%22id%22:%22se.optiqon.voice%22,%22url%22:%22https://github.com/LarsAhls/optiqon-voice%22,%22author%22:%22LarsAhls%22,%22name%22:%22OPTIQON%20Voice%22,%22additionalSettings%22:%22{\%22about\%22:\%22A%20tiny%20dictation%20app.%20Connect%20any%20OpenAI-compatible%20backend%20and%20type%20by%20speaking.\%22}%22}"><img src="/assets/badge_obtainium.png" alt="Get it on Obtainium" height="60"></a>
 
 You need an Android device and an ASR backend that speaks the OpenAI API. An LLM for post-processing is optional and worth it.
 
@@ -50,15 +52,15 @@ Nothing here needs hosting: the app is the whole product, and it will talk to an
 
 ### Speech to text
 
-Plenty of options exist, from [whisper.cpp](https://github.com/ggml-org/whisper.cpp) to [faster-whisper](https://github.com/SYSTRAN/faster-whisper). I run [speaches](https://github.com/speaches-ai/speaches).
+Plenty of options exist, from [whisper.cpp](https://github.com/ggml-org/whisper.cpp) to [faster-whisper](https://github.com/SYSTRAN/faster-whisper). [speaches](https://github.com/speaches-ai/speaches) is a compatible server worth considering.
 
-For the model itself, [`deepdml/faster-whisper-large-v3-turbo-ct2`](https://huggingface.co/deepdml/faster-whisper-large-v3-turbo-ct2) beat everything else I tried across several European languages. On a GPU it is quick, and it holds up when you talk fast or even whisper.
+For the model itself, [`deepdml/faster-whisper-large-v3-turbo-ct2`](https://huggingface.co/deepdml/faster-whisper-large-v3-turbo-ct2) has outperformed other options tested across several European languages. On a GPU it is quick, and it holds up when you talk fast or even whisper.
 
 Other options:
 
 - The [whisper](https://huggingface.co/collections/openai/whisper-release) family, from tiny up to medium. For English only, the `en` models are smaller and sharper.
 - [`Parakeet`](https://parakeettdt.com/) gives good results.
-- [`moonshine`](https://github.com/moonshine-ai/moonshine) is small and multilingual, though I know of no OpenAI-compatible API for it.
+- [`moonshine`](https://github.com/moonshine-ai/moonshine) is small and multilingual, though no OpenAI-compatible API for it is known to exist.
 - [`Voxtral Mini`](https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602)
 
 Setting your main languages in the app lowers the word error rate.
@@ -67,9 +69,9 @@ Setting your main languages in the app lowers the word error rate.
 
 Optional. A 2B or 4B model on a consumer GPU adds little delay and cleans the text up well.
 
-I fine-tuned the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)) using the recipe in the [`fine-tuning`](https://github.com/pluja/sasayaki/tree/main/fine-tuning#fine-tuning) directory. Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
+The [`fine-tuning`](fine-tuning/README.md#fine-tuning) directory contains a recipe for fine-tuning the 2B version of Qwen3.5 ([unsloth/Qwen3.5-2B](https://huggingface.co/unsloth/Qwen3.5-2B)). Generate a synthetic dataset in your language, then train with [`unsloth`](https://unsloth.ai/) on about 5GB of VRAM.
 
-To serve it, I use [`llama-swap`](https://github.com/mostlygeek/llama-swap) over a llama.cpp backend. Plain [`llama.cpp`](https://github.com/ggml-org/llama.cpp), [`koboldcpp`](https://github.com/LostRuins/koboldcpp) and [LlamaFiles](https://github.com/mozilla-ai/llamafile) all work too.
+To serve it, [`llama-swap`](https://github.com/mostlygeek/llama-swap) over a llama.cpp backend works well. Plain [`llama.cpp`](https://github.com/ggml-org/llama.cpp), [`koboldcpp`](https://github.com/LostRuins/koboldcpp) and [LlamaFiles](https://github.com/mozilla-ai/llamafile) all work too.
 
 The same providers are useful if you don't want to host your own ([ppq.ai](https://ppq.ai/) and [nano-gpt.com](https://nano-gpt.com)). If you want private inference, check out [tinfoil](https://tinfoil.sh).
 
@@ -80,7 +82,7 @@ Pick a model that follows instructions. Some will answer a dictated question ins
 Build the release APK in Docker, which avoids installing an Android SDK or a matching JDK:
 
 ```sh
-make build      # writes sasayaki-release.apk
+make build      # writes optiqon-voice-release.apk
 ```
 
 Run the prompt tests, which need no network and no credentials:
@@ -92,14 +94,22 @@ Run the prompt tests, which need no network and no credentials:
 Two further suites measure the post-processing prompts against real models. They skip themselves unless `OPENAI_ENDPOINT` and `OPENAI_API_KEY` are set, so they never run by accident:
 
 - `PostProcessingBenchmark` sends dictations in English, Spanish, French, Catalan and Italian, then checks whether self-corrections were applied, whether the text stayed in its original language, and how long each model took.
-- `StyleControlDifferentialTest` verifies that moving a style control changes the output, which is how I found two settings that did nothing at all.
+- `StyleControlDifferentialTest` verifies that moving a style control changes the output — it caught two settings that did nothing at all.
 
 Both write a report under `app/build/reports/benchmark/`.
 
-## License
+## License / Provenance
 
-GPLv3
+GPLv3 — see [LICENSE](LICENSE).
 
-## Why ささやき?
+OPTIQON Voice is a modified and rebranded derivative of [pluja/sasayaki](https://github.com/pluja/sasayaki),
+released by its original author under GPLv3. The OPTIQON Voice modifications began in September 2026.
+It remains licensed under GPLv3. See
+[docs/OPTIQON_VOICE_IDENTITY.md](docs/OPTIQON_VOICE_IDENTITY.md) for the identity principles that
+govern this rename, including what may still reference the upstream name.
 
-It means whisper in Japanese. I like how it sounds and looks. I am also learning Japanese, so I thought it's fun to use a Japanese word I learned for this tiny app.
+### Historical note: the original name
+
+Upstream's original name, ささやき (sasayaki), means "whisper" in Japanese — a nod picked by the
+original author while learning the language. It no longer names this app, but the history is worth
+keeping on record.

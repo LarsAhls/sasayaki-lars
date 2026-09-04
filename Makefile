@@ -1,7 +1,7 @@
 .PHONY: build test debug clean docker-image
 
-DOCKER_IMAGE := sasayaki-build
-APK_OUTPUT := sasayaki-release.apk
+DOCKER_IMAGE := optiqon-voice-build
+APK_OUTPUT := optiqon-voice-release.apk
 GRADLE_USER_HOME := $(CURDIR)/.gradle-cache
 GRADLE_BUILD_HOME := $(CURDIR)/.gradle-build-cache
 ANDROID_SDK_HOME := $(CURDIR)/.android-cache

@@ -1,7 +1,7 @@
 [project]
 name = "fine-tuning"
 version = "0.1.0"
-description = "Language-agnostic fine-tuning pipeline for Sasayaki dictation post-processing"
+description = "Language-agnostic fine-tuning pipeline for OPTIQON Voice dictation post-processing"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

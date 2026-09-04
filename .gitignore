@@ -13,7 +13,7 @@ local.properties
 *.apk
 *.aab
 *.hprof
-sasayaki-*.apk
+optiqon-voice-*.apk
 .gradle-local
 .gradle-local-project
 .gradle-cache
@@ -31,3 +31,4 @@ output/
 !.env.example
 *.md
 !README.md
+!docs/OPTIQON_VOICE_IDENTITY.md

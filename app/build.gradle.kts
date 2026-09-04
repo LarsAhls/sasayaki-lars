@@ -10,12 +10,12 @@ plugins {
 }
 
 android {
-    namespace = "com.sasayaki"
+    namespace = "se.optiqon.voice"
     compileSdk = 35
     buildToolsVersion = "35.0.0"
 
     defaultConfig {
-        applicationId = "com.sasayaki"
+        applicationId = "se.optiqon.voice"
         minSdk = 26
         targetSdk = 35
 
@@ -42,6 +42,30 @@ android {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
         }
+
+        // Future release signing key, provided via env vars / Gradle properties (a future
+        // "Gate" mission's GitHub secrets), never committed to the repo. No values are set
+        // here, so this config is only usable once all four are supplied out-of-band; until
+        // then `release.signingConfig` below falls back to the debug key, same as today.
+        create("release") {
+            val storeFilePath = providers.gradleProperty("RELEASE_STORE_FILE")
+                .orElse(providers.environmentVariable("RELEASE_STORE_FILE"))
+            val storePasswordValue = providers.gradleProperty("RELEASE_STORE_PASSWORD")
+                .orElse(providers.environmentVariable("RELEASE_STORE_PASSWORD"))
+            val keyAliasValue = providers.gradleProperty("RELEASE_KEY_ALIAS")
+                .orElse(providers.environmentVariable("RELEASE_KEY_ALIAS"))
+            val keyPasswordValue = providers.gradleProperty("RELEASE_KEY_PASSWORD")
+                .orElse(providers.environmentVariable("RELEASE_KEY_PASSWORD"))
+
+            if (storeFilePath.isPresent && storePasswordValue.isPresent &&
+                keyAliasValue.isPresent && keyPasswordValue.isPresent
+            ) {
+                storeFile = file(storeFilePath.get())
+                storePassword = storePasswordValue.get()
+                keyAlias = keyAliasValue.get()
+                keyPassword = keyPasswordValue.get()
+            }
+        }
     }
 
     buildTypes {
@@ -49,7 +73,15 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            // Uses the real release key once it is supplied (see signingConfigs above);
+            // otherwise falls back to the debug key, matching today's behavior so local/CI
+            // builds keep working with zero secrets configured.
+            val releaseSigning = signingConfigs.getByName("release")
+            signingConfig = if (releaseSigning.storeFile != null) {
+                releaseSigning
+            } else {
+                signingConfigs.getByName("debug")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
