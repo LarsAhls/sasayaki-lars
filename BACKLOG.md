@@ -69,3 +69,58 @@ Group findings into:
 ### Repo migration note
 
 If OPTIQON Voice is moved into a new `LarsAhls/optiqon-voice` repository instead of renaming this repository, migrate this backlog item with it.
+
+---
+
+## Groq setup UX — provider preset, prefilled fields and model selection
+
+**Status:** Backlog
+
+**Goal:** Make first-time Groq configuration substantially faster and harder to misconfigure, without bundling credentials or locking the app to one provider.
+
+### Proposed behavior
+
+When the user selects **Groq** as provider, offer a Groq preset that:
+
+- prefills the compatible base URL as `https://api.groq.com/openai`;
+- presents known compatible transcription models in a dropdown instead of requiring exact manual typing, with `whisper-large-v3-turbo` as the recommended/default Groq ASR choice unless later evidence changes the recommendation;
+- presents known compatible post-processing/chat models in a dropdown where applicable, while retaining an **Other / custom model** option;
+- keeps advanced/custom base URL editing available so OpenAI-compatible providers remain supported;
+- never ships or hardcodes an API key.
+
+### Acceptance intent
+
+A new user choosing Groq should normally only need to paste their API key and confirm/select a model, rather than manually discovering and typing provider URL/model identifiers.
+
+### Boundaries
+
+- Do not remove custom provider support.
+- Do not silently overwrite a user's existing custom configuration.
+- Treat model lists as maintainable configuration, not permanent truth; preserve a custom-model fallback.
+- Validate the final endpoint construction so the app does not accidentally produce duplicate `/v1` path segments.
+
+---
+
+## Groq onboarding link from provider settings
+
+**Status:** Backlog
+
+**Goal:** Let a user go directly from OPTIQON Voice settings to the place needed to obtain/configure Groq credentials, reducing setup friction and support burden.
+
+### Proposed behavior
+
+In the Groq provider section:
+
+- add a clearly labelled external link/button such as **Get Groq API key** that opens Groq's official API-key/account page;
+- optionally add a secondary **Groq setup/help** link if the API-key page alone is not sufficiently self-explanatory;
+- visually associate the link with the API-key field and provider preset/dropdown;
+- make it explicit that the key belongs to the user and is stored/handled by the app according to its credential policy.
+
+### Definition of Done
+
+- Groq can be selected without manually knowing its endpoint.
+- Recommended models can be selected without typing model IDs.
+- Custom endpoint/model remain possible.
+- Official Groq link opens correctly.
+- No key, token or secret is committed, logged or embedded in the app.
+- Existing non-Groq provider behavior is unchanged.
